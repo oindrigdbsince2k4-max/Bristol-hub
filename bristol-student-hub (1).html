@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bristol Student Hub – Housing & Transport</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e63022;
+    --red-light: #ff4d3d;
+    --cream: #fdf6ed;
+    --dark: #1a1209;
+    --mid: #5c4a2a;
+    --accent: #f5a623;
+    --green: #2d9c5c;
+    --blue: #1d6fa4;
+    --tag-bg: #fff3e0;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.25rem;
+    color: #fff; letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 0.25rem; }
+  .nav-links a {
+    color: #ccc; text-decoration: none;
+    font-size: 0.85rem; font-weight: 500;
+    padding: 0.4rem 0.85rem; border-radius: 20px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .nav-links a.active { background: var(--red); color: #fff; }
+  .nav-cta {
+    background: var(--accent); color: var(--dark);
+    border: none; padding: 0.45rem 1.1rem;
+    border-radius: 20px; font-weight: 600;
+    font-size: 0.85rem; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: transform 0.15s;
+  }
+  .nav-cta:hover { transform: scale(1.05); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--dark);
+    padding: 5rem 2rem 4rem;
+    position: relative; overflow: hidden;
+    text-align: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(230,48,34,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(245,166,35,0.15) 0%, transparent 50%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(245,166,35,0.15);
+    border: 1px solid rgba(245,166,35,0.4);
+    color: var(--accent);
+    font-size: 0.75rem; font-weight: 600;
+    padding: 0.3rem 0.9rem; border-radius: 20px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: #fff; line-height: 1.05;
+    letter-spacing: -1.5px;
+    position: relative; margin-bottom: 1.25rem;
+  }
+  .hero h1 em { color: var(--red-light); font-style: normal; }
+  .hero p {
+    color: rgba(255,255,255,0.65);
+    font-size: 1.1rem; max-width: 540px;
+    margin: 0 auto 2rem; line-height: 1.65;
+    position: relative;
+  }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; position: relative; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--red); color: #fff;
+    padding: 0.75rem 1.75rem; border-radius: 8px;
+    font-weight: 600; font-size: 0.95rem;
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--red-light); transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent; color: #fff;
+    padding: 0.75rem 1.75rem; border-radius: 8px;
+    font-weight: 500; font-size: 0.95rem;
+    border: 1px solid rgba(255,255,255,0.3); cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; justify-content: center;
+    margin-top: 3.5rem; position: relative;
+  }
+  .stat { text-align: center; }
+  .stat-n {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem; font-weight: 800;
+    color: #fff;
+  }
+  .stat-n span { color: var(--accent); }
+  .stat-l { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-top: 0.15rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* ── SECTION SHELL ── */
+  .section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    letter-spacing: -0.5px; margin-bottom: 0.4rem;
+  }
+  .section-sub { color: var(--mid); font-size: 0.95rem; margin-bottom: 2.5rem; }
+  .pill-header {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--dark); color: #fff;
+    padding: 0.35rem 0.9rem; border-radius: 20px;
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .pill-header.red { background: var(--red); }
+  .pill-header.green { background: var(--green); }
+  .pill-header.blue { background: var(--blue); }
+
+  /* ── HOUSING CARDS ── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+
+  .housing-card {
+    background: #fff; border-radius: 16px;
+    overflow: hidden; border: 1px solid #ede5d8;
+    transition: all 0.25s; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .housing-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
+
+  .card-img {
+    height: 160px; position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+  }
+  .card-img-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+  }
+  .card-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,18,9,0.7) 0%, transparent 60%);
+  }
+  .card-img-price {
+    position: relative; z-index: 2;
+    padding: 0.75rem 1rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 1.05rem; color: #fff;
+  }
+  .card-img-price small { font-size: 0.7rem; font-weight: 400; opacity: 0.8; }
+
+  .card-body { padding: 1.1rem 1.2rem 1.2rem; }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem;
+  }
+  .card-location { font-size: 0.8rem; color: var(--mid); margin-bottom: 0.85rem; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+  .tag {
+    background: var(--tag-bg);
+    color: #7a5c20;
+    font-size: 0.7rem; font-weight: 600;
+    padding: 0.25rem 0.6rem; border-radius: 6px;
+    white-space: nowrap;
+  }
+  .tag.good { background: #e6f5ec; color: #1a6e3d; }
+  .tag.warn { background: #fff3cd; color: #856404; }
+  .tag.info { background: #e8f1fb; color: #1d6fa4; }
+
+  .card-stars { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; }
+  .stars { color: var(--accent); letter-spacing: 1px; }
+  .review-count { color: #999; font-size: 0.75rem; }
+
+  .card-cta {
+    display: block; text-align: center;
+    background: var(--dark); color: #fff;
+    border-radius: 8px; padding: 0.6rem;
+    font-size: 0.82rem; font-weight: 600;
+    text-decoration: none; margin-top: 1rem;
+    transition: background 0.2s;
+  }
+  .card-cta:hover { background: var(--red); }
+
+  /* ── TRANSPORT SECTION ── */
+  .transport-bg { background: var(--dark); padding: 4rem 0; }
+  .transport-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  .transport-inner .section-title { color: #fff; }
+  .transport-inner .section-sub { color: rgba(255,255,255,0.5); }
+
+  .transport-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .transport-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 1.4rem;
+    transition: all 0.25s;
+  }
+  .transport-card:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+  .t-icon { font-size: 2.2rem; margin-bottom: 0.75rem; }
+  .t-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 1.1rem;
+    color: #fff; margin-bottom: 0.4rem;
+  }
+  .t-desc { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 1rem; }
+  .t-tip {
+    background: rgba(245,166,35,0.12);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.78rem; color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .t-link {
+    display: inline-block;
+    color: var(--accent); font-size: 0.82rem;
+    font-weight: 600; text-decoration: none;
+    border-bottom: 1px solid rgba(245,166,35,0.3);
+    transition: border-color 0.2s;
+  }
+  .t-link:hover { border-color: var(--accent); }
+
+  /* ── CONNECTIONS ── */
+  .connections-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .conn-card {
+    background: #fff; border: 1px solid #ede5d8;
+    border-radius: 14px; padding: 1.3rem;
+    transition: all 0.2s;
+  }
+  .conn-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .conn-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+  .conn-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem;
+  }
+  .conn-desc { font-size: 0.82rem; color: var(--mid); line-height: 1.55; margin-bottom: 0.9rem; }
+  .conn-link {
+    font-size: 0.8rem; font-weight: 600;
+    color: var(--red); text-decoration: none;
+  }
+  .conn-link:hover { text-decoration: underline; }
+
+  /* ── CHATROOM ── */
+  .chat-section { background: #fff3e0; border-radius: 20px; padding: 2.5rem; margin: 2rem 0; }
+  .chat-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem;
+  }
+  .chat-sub { font-size: 0.88rem; color: var(--mid); margin-bottom: 1.5rem; }
+  .chat-messages { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .chat-msg {
+    background: #fff; border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid #f0e5d0;
+    font-size: 0.85rem; line-height: 1.55;
+  }
+  .chat-msg-author { font-weight: 700; font-size: 0.75rem; color: var(--mid); margin-bottom: 0.25rem; }
+  .chat-msg-author span { background: var(--accent); color: var(--dark); font-size: 0.65rem; padding: 0.1rem 0.45rem; border-radius: 4px; margin-left: 0.4rem; font-weight: 700; }
+  .chat-input-row { display: flex; gap: 0.75rem; }
+  .chat-input {
+    flex: 1; padding: 0.7rem 1rem;
+    border: 1px solid #ddd; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    outline: none;
+  }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-send {
+    background: var(--red); color: #fff;
+    border: none; padding: 0.7rem 1.3rem;
+    border-radius: 8px; font-weight: 600;
+    font-size: 0.88rem; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── FILTER BAR ── */
+  .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .filter-btn {
+    background: #fff; border: 1px solid #ddd;
+    border-radius: 20px; padding: 0.4rem 0.9rem;
+    font-size: 0.8rem; font-weight: 500;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--dark); color: #fff; border-color: var(--dark);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark); color: rgba(255,255,255,0.45);
+    text-align: center; padding: 2rem;
+    font-size: 0.8rem; line-height: 1.8;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6); z-index: 200;
+    align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: 20px;
+    max-width: 520px; width: 100%;
+    padding: 2rem; position: relative;
+    max-height: 85vh; overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: #f0e5d0; border: none;
+    width: 32px; height: 32px; border-radius: 50%;
+    cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 800; margin-bottom: 0.25rem;
+  }
+  .modal-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 800;
+    color: var(--red); margin: 0.5rem 0 1rem;
+  }
+  .modal-price small { font-size: 0.85rem; font-weight: 400; color: var(--mid); }
+  .modal-section { margin: 1.2rem 0; }
+  .modal-section h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin-bottom: 0.5rem; }
+  .modal-row { display: flex; justify-content: space-between; font-size: 0.88rem; padding: 0.35rem 0; border-bottom: 1px solid #f5f0e8; }
+  .modal-row span:last-child { font-weight: 600; }
+  .good-text { color: var(--green); }
+  .warn-text { color: #c77b00; }
+
+  /* ── BANNER ── */
+  .info-banner {
+    background: linear-gradient(135deg, var(--red) 0%, #c0271a 100%);
+    color: #fff; padding: 1rem 2rem;
+    text-align: center; font-size: 0.88rem;
+  }
+  .info-banner a { color: var(--accent); font-weight: 600; text-decoration: none; }
+
+  /* ── ANIMATE ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(20px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+  .fadeup { animation: fadeUp 0.5s ease both; }
+  .delay1 { animation-delay: 0.1s; }
+  .delay2 { animation-delay: 0.2s; }
+  .delay3 { animation-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BANNER -->
+<div class="info-banner">
+  🎓 Made by UoB students, for UoB students — <a href="#connections">join the conversation →</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Bristol<span>Hub</span></div>
+  <div class="nav-links">
+    <a href="#housing" class="active">Housing</a>
+    <a href="#transport">Transport</a>
+    <a href="#connections">Connections</a>
+    <a href="#chat">Chat</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">💬 Join Chat</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Bristol Student Hub — Beta</div>
+  <h1>Find your place.<br><em>Navigate your city.</em></h1>
+  <p>Housing, transport & student life — all the info you actually need, without the fluff. Made by students who've been there.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('housing').scrollIntoView({behavior:'smooth'})">🏠 Find Housing</button>
+    <button class="btn-ghost" onclick="document.getElementById('transport').scrollIntoView({behavior:'smooth'})">🚌 Transport Guide</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n">10<span>+</span></div><div class="stat-l">Guides</div></div>
+    <div class="stat"><div class="stat-n">50<span>+</span></div><div class="stat-l">Reviews</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">Campuses</div></div>
+    <div class="stat"><div class="stat-n">1</div><div class="stat-l">Community</div></div>
+  </div>
+</section>
+
+<!-- HOUSING -->
+<section class="section" id="housing">
+  <div class="pill-header red">🏠 Housing</div>
+  <h2 class="section-title fadeup">Find the right place to live</h2>
+  <p class="section-sub fadeup delay1">UoB halls, private halls & rentals — prices, bills, transport and honest reviews, all in one place.</p>
+
+  <div class="filter-bar fadeup delay2">
+    <button class="filter-btn active" onclick="setFilter(this,'all')">All</button>
+    <button class="filter-btn" onclick="setFilter(this,'uob')">UoB Halls</button>
+    <button class="filter-btn" onclick="setFilter(this,'private-hall')">Private Halls</button>
+    <button class="filter-btn" onclick="setFilter(this,'rental')">Private Rental</button>
+    <button class="filter-btn" onclick="setFilter(this,'bills-included')">Bills Included</button>
+    <button class="filter-btn" onclick="setFilter(this,'parking')">Has Parking</button>
+  </div>
+
+  <div class="card-grid" id="housing-grid">
+
+    <div class="housing-card fadeup" data-tags="uob bills-included">
+      <div class="card-img" style="background: linear-gradient(135deg,#1a3a5c,#2d6fa4);">
+        <div class="card-img-bg">🏛️</div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-price">£160–£210 <small>/week</small></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Accommodation at 33 (UoB)</div>
+        <div class="card-location">📍 Stoke Bishop, 20 min to campus</div>
+        <div class="tag-row">
+          <span class="tag good">✅ Bills Included</span>
+          <span class="tag info">🚌 Bus Route</span>
+          <span class="tag warn">❌ No Parking</span>
+          <span class="tag good">🍽️ Catered Option</span>
+          <span class="tag">No Guarantor</span>
+        </div>
+        <div class="card-stars">
+          <span class="stars">★★★★☆</span>
+          <span>4.1</span>
+          <span class="review-count">(38 student reviews)</span>
+        </div>
+        <a class="card-cta" href="https://www.bristol.ac.uk/accommodation/about/residences/accommodation-at-thirty-three/" target="_blank">View Details →</a>
+      </div>
+    </div>
+
+    <div class="housing-card fadeup delay1" data-tags="uob bills-included">
+      <div class="card-img" style="background: linear-gradient(135deg,#1a4c2a,#2d9c5c);">
+        <div class="card-img-bg">🌿</div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-price">£145–£185 <small>/week</small></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Clifton Hill House (UoB)</div>
+        <div class="card-location">📍 Clifton, 10 min walk to campus</div>
+        <div class="tag-row">
+          <span class="tag good">✅ Bills Included</span>
+          <span class="tag good">🚶 Walk to Campus</span>
+          <span class="tag warn">❌ No Parking</span>
+          <span class="tag good">🍽️ Catered</span>
+          <span class="tag">No Guarantor</span>
+        </div>
+        <div class="card-stars">
+          <span class="stars">★★★★★</span>
+          <span>4.6</span>
+          <span class="review-count">(52 student reviews)</span>
+        </div>
+        <a class="card-cta" href="https://www.bristol.ac.uk/students/life-in-bristol/accommodation/university-accommodation/moving-in/what-to-bring/" target="_blank">View Details →</a>
+      </div>
+    </div>
+
+    <div class="housing-card fadeup delay2" data-tags="private-hall bills-included parking">
+      <div class="card-img" style="background: linear-gradient(135deg,#4a1a5c,#9c2d9c);">
+        <div class="card-img-bg">🏢</div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-price">£175–£250 <small>/week</small></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Unite Students – Bristol</div>
+        <div class="card-location">📍 City Centre, near Temple Meads</div>
+        <div class="tag-row">
+          <span class="tag good">✅ Bills Included</span>
+          <span class="tag good">🅿️ Parking Available</span>
+          <span class="tag info">🚂 Train Nearby</span>
+          <span class="tag warn">⚠️ Guarantor Needed</span>
+        </div>
+        <div class="card-stars">
+          <span class="stars">★★★☆☆</span>
+          <span>3.4</span>
+          <span class="review-count">(29 student reviews)</span>
+        </div>
+        <a class="card-cta" href="#" onclick="openModal('unite');return false;">View Details →</a>
+      </div>
+    </div>
+
+    <div class="housing-card fadeup" data-tags="rental parking">
+      <div class="card-img" style="background: linear-gradient(135deg,#5c3a1a,#c77b00);">
+        <div class="card-img-bg">🏡</div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-price">£95–£140 <small>/week</small></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Private Rental – Redland / Cotham</div>
+        <div class="card-location">📍 Redland, 15 min cycle to campus</div>
+        <div class="tag-row">
+          <span class="tag warn">⚡ Bills Extra</span>
+          <span class="tag good">🅿️ Street Parking</span>
+          <span class="tag warn">⚠️ Guarantor Needed</span>
+          <span class="tag info">🚌 Bus 8/9</span>
+        </div>
+        <div class="card-stars">
+          <span class="stars">★★★★☆</span>
+          <span>4.0</span>
+          <span class="review-count">(14 student reviews)</span>
+        </div>
+        <a class="card-cta" href="https://www.rightmove.co.uk/property-to-rent/find.html?searchLocation=Bristol%2C+BS6&locationIdentifier=REGION%5E219&maxBedrooms=5&minBedrooms=2" target="_blank">View on RightMove →</a>
+      </div>
+    </div>
+
+    <div class="housing-card fadeup delay1" data-tags="rental">
+      <div class="card-img" style="background: linear-gradient(135deg,#1a4a5c,#2d9ca0);">
+        <div class="card-img-bg">🏘️</div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-price">£90–£130 <small>/week</small></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Private Rental – Easton / St Werburghs</div>
+        <div class="card-location">📍 Easton, 20 min bike to campus</div>
+        <div class="tag-row">
+          <span class="tag warn">⚡ Bills Extra</span>
+          <span class="tag good">💰 Budget Friendly</span>
+          <span class="tag warn">⚠️ Guarantor Needed</span>
+          <span class="tag info">🚌 Bus 5/5A</span>
+        </div>
+        <div class="card-stars">
+          <span class="stars">★★★☆☆</span>
+          <span>3.6</span>
+          <span class="review-count">(9 student reviews)</span>
+        </div>
+        <a class="card-cta" href="https://www.rightmove.co.uk/property-to-rent/find.html?searchLocation=Easton%2C+Bristol&locationIdentifier=REGION%5E219" target="_blank">View on RightMove →</a>
+      </div>
+    </div>
+
+    <div class="housing-card fadeup delay2" data-tags="uob bills-included">
+      <div class="card-img" style="background: linear-gradient(135deg,#5c1a1a,#e63022);">
+        <div class="card-img-bg">🎓</div>
+        <div class="card-img-overlay"></div>
+        <div class="card-img-price">£130–£170 <small>/week</small></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Hiatt Baker Hall (UoB)</div>
+        <div class="card-location">📍 Stoke Bishop, 25 min to campus</div>
+        <div class="tag-row">
+          <span class="tag good">✅ Bills Included</span>
+          <span class="tag info">🚌 Free UoB Bus</span>
+          <span class="tag warn">❌ No Parking</span>
+          <span class="tag">No Guarantor</span>
+        </div>
+        <div class="card-stars">
+          <span class="stars">★★★★☆</span>
+          <span>4.2</span>
+          <span class="review-count">(61 student reviews)</span>
+        </div>
+        <a class="card-cta" href="https://www.bristol.ac.uk/students/life-in-bristol/accommodation/" target="_blank">View Details →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TRANSPORT -->
+<div class="transport-bg" id="transport">
+  <div class="transport-inner">
+    <div class="pill-header" style="background:rgba(255,255,255,0.1);color:#fff;">🚌 Transport</div>
+    <h2 class="section-title">Getting around Bristol</h2>
+    <p class="section-sub">Everything you need to know — buses, trains, taxis. Real talk, no spin.</p>
+
+    <div class="transport-grid">
+
+      <div class="transport-card">
+        <div class="t-icon">🚌</div>
+        <div class="t-title">First Bus – City Routes</div>
+        <div class="t-desc">Key routes to Clifton, Stoke Bishop & city centre. The U1/U2 are your main UoB routes — get a student bus pass to save big.</div>
+        <div class="t-tip">⚠️ Buses run late &amp; cancel often — leave 10 min early, always. Seriously.</div>
+        <a class="t-link" href="https://www.firstbus.co.uk/bristol-bath-and-west" target="_blank">First Bus routes & passes →</a>
+      </div>
+
+      <div class="transport-card">
+        <div class="t-icon">🚂</div>
+        <div class="t-title">Trains – Temple Meads & Clifton Down</div>
+        <div class="t-desc">Bristol Temple Meads is the main hub. Clifton Down station is handy for the Downs area. Use 16–25 Railcard + Trainline for cheapest fares.</div>
+        <div class="t-tip">🎟️ Book advance tickets on Trainline for big savings vs walking up.</div>
+        <a class="t-link" href="https://www.trainline.com" target="_blank">Trainline →</a>&nbsp;&nbsp;
+        <a class="t-link" href="https://travelwest.info" target="_blank">Travel West →</a>
+      </div>
+
+      <div class="transport-card">
+        <div class="t-icon">🚖</div>
+        <div class="t-title">Taxi &amp; Uber</div>
+        <div class="t-desc">Uber is widely available across Bristol. Licensed black cabs available at Temple Meads. Arrow Cars is a popular local firm — often cheaper late night.</div>
+        <div class="t-tip">💡 Split Uber with flatmates after nights out — saves everyone.</div>
+        <a class="t-link" href="https://www.uber.com/gb/en/ride/" target="_blank">Uber Bristol →</a>
+      </div>
+
+      <div class="transport-card">
+        <div class="t-icon">🚲</div>
+        <div class="t-title">Cycling &amp; Scooting</div>
+        <div class="t-desc">Bristol has decent cycle lanes. Voi &amp; Tier e-scooters are available with student discounts. Cycling from Redland to campus takes ~15 mins.</div>
+        <div class="t-tip">🔒 Invest in a good D-lock — bike theft is common in the city.</div>
+        <a class="t-link" href="https://www.voi.com/en/cities/bristol/" target="_blank">Voi e-scooters →</a>
+      </div>
+
+      <div class="transport-card">
+        <div class="t-icon">🗺️</div>
+        <div class="t-title">Key Campus Connections</div>
+        <div class="t-desc">Main campus: U1/U2 buses. Langford (vet): X5 from Temple Meads. Frenchay (UWE): no.17 bus. Free UoB shuttle from Stoke Bishop halls.</div>
+        <div class="t-tip">📱 Download the First Bus app — live tracking is a lifesaver.</div>
+        <a class="t-link" href="https://www.bristol.ac.uk/students/life-in-bristol/getting-around/" target="_blank">UoB getting around guide →</a>
+      </div>
+
+      <div class="transport-card">
+        <div class="t-icon">🅿️</div>
+        <div class="t-title">Parking in Bristol</div>
+        <div class="t-desc">City centre parking is expensive. Resident permit zones cover most student areas. If your accommodation has parking — use it. Park &amp; Ride from the edges is cheaper.</div>
+        <div class="t-tip">🚗 Most UoB halls don't allow cars in 1st year. Check your contract!</div>
+        <a class="t-link" href="https://www.bristol.gov.uk/parking-travel-transport" target="_blank">Bristol parking info →</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- STUDENT CONNECTIONS -->
+<section class="section" id="connections">
+  <div class="pill-header green">🤝 Student Connections</div>
+  <h2 class="section-title">You're not alone</h2>
+  <p class="section-sub">Resources, discounts and communities to help you settle in.</p>
+
+  <div class="connections-grid">
+    <div class="conn-card">
+      <div class="conn-icon">🏫</div>
+      <div class="conn-title">UoB Students' Union</div>
+      <div class="conn-desc">200+ societies, sports clubs, welfare officers and campaigns. Your SU is your biggest ally at uni.</div>
+      <a class="conn-link" href="https://www.bristolsu.org.uk" target="_blank">bristolsu.org.uk →</a>
+    </div>
+    <div class="conn-card">
+      <div class="conn-icon">🎙️</div>
+      <div class="conn-title">Bristol Voices</div>
+      <div class="conn-desc">Peer-to-peer stories from UoB students and alumni — real experiences, real advice about Bristol life.</div>
+      <a class="conn-link" href="https://www.bristol.ac.uk/alumni/get-involved/bristol-voices-/" target="_blank">Read Bristol Voices →</a>
+    </div>
+    <div class="conn-card">
+      <div class="conn-icon">🤝</div>
+      <div class="conn-title">Guarantor Info</div>
+      <div class="conn-desc">International or first-gen student? Most private rentals need a UK guarantor. Learn your options — Housing Hand, UK Guarantor Service and more.</div>
+      <a class="conn-link" href="https://www.bristol.ac.uk/students/life-in-bristol/accommodation/private-accommodation/guarantors/" target="_blank">UoB Guarantor Guide →</a>
+    </div>
+    <div class="conn-card">
+      <div class="conn-icon">💳</div>
+      <div class="conn-title">Student Discounts</div>
+      <div class="conn-desc">Hundreds of deals from ASOS, Apple, Domino's and more. Download both apps — different deals on each.</div>
+      <a class="conn-link" href="https://www.studentbeans.com" target="_blank">Student Beans →</a>&nbsp;
+      <a class="conn-link" href="https://www.myunidays.com" target="_blank">UNiDAYS →</a>
+    </div>
+    <div class="conn-card">
+      <div class="conn-icon">💰</div>
+      <div class="conn-title">Student Finances</div>
+      <div class="conn-desc">Bursaries, hardship funds, money management tools — UoB has more financial support than most students realise.</div>
+      <a class="conn-link" href="https://www.bristol.ac.uk/students/support/finances/" target="_blank">UoB Finance Support →</a>
+    </div>
+    <div class="conn-card">
+      <div class="conn-icon">📲</div>
+      <div class="conn-title">Social — Stay Connected</div>
+      <div class="conn-desc">Follow <strong>@BristolFreshers</strong> on Instagram for freshers events. Tag <strong>#ThinkBig</strong> to share your experience.</div>
+      <a class="conn-link" href="https://www.instagram.com/bristolfreshers" target="_blank">Instagram →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ANONYMOUS CHATROOM -->
+<section class="section" id="chat">
+  <div class="pill-header blue">💬 Student Chat</div>
+  <h2 class="section-title">Anonymous Q&amp;A</h2>
+  <p class="section-sub">Ask anything about housing or transport. Reviews are anonymous and student-verified.</p>
+
+  <div class="chat-section">
+    <div class="chat-title">💬 Community Board</div>
+    <div class="chat-sub">Anonymous · Student-verified reviews only · No personal data stored</div>
+
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg">
+        <div class="chat-msg-author">Anonymous Student <span>Verified UoB</span></div>
+        Hiatt Baker is honestly great for first year — the UoB bus is right outside and it's easy to meet people. Gets a bit noisy on weekends though 😅
+      </div>
+      <div class="chat-msg">
+        <div class="chat-msg-author">Anonymous Student <span>2nd Year</span></div>
+        First Bus cancelled on me FOUR times in one week. Download the app and always check live tracking before leaving the house. 100% worth it.
+      </div>
+      <div class="chat-msg">
+        <div class="chat-msg-author">Anonymous Student <span>Verified UoB</span></div>
+        Redland is the best area for 2nd year imo — 15min walk to campus, loads of cafes, not too expensive. Just make sure your landlord is legit (check Unipol first!)
+      </div>
+      <div class="chat-msg">
+        <div class="chat-msg-author">Anonymous Student <span>International</span></div>
+        For international students needing a guarantor — Housing Hand is expensive but it works. Ask your department first if they have any emergency housing support.
+      </div>
+    </div>
+
+    <div class="chat-input-row">
+      <input class="chat-input" id="chat-input" type="text" placeholder="Ask a question or share your experience anonymously...">
+      <button class="chat-send" onclick="sendChat()">Send</button>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL (example for Unite Students) -->
+<div class="modal-overlay" id="modal-unite" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('modal-unite').classList.remove('open')">✕</button>
+    <div style="font-size:2rem;margin-bottom:0.5rem;">🏢</div>
+    <div class="modal-title">Unite Students – Bristol</div>
+    <div style="font-size:0.8rem;color:#999;margin-bottom:0.5rem;">📍 City Centre, near Temple Meads</div>
+    <div class="modal-price">£175–£250 <small>/week</small></div>
+
+    <div class="modal-section">
+      <h4>Key Details</h4>
+      <div class="modal-row"><span>Bills</span><span class="good-text">✅ Included</span></div>
+      <div class="modal-row"><span>Catering</span><span class="warn-text">Self-catered only</span></div>
+      <div class="modal-row"><span>Parking</span><span class="good-text">✅ Available (extra cost)</span></div>
+      <div class="modal-row"><span>Furnished</span><span class="good-text">✅ Fully furnished</span></div>
+      <div class="modal-row"><span>Guarantor</span><span class="warn-text">⚠️ UK guarantor required</span></div>
+    </div>
+
+    <div class="modal-section">
+      <h4>Nearby Transport</h4>
+      <div class="modal-row"><span>Bus</span><span>Routes 1, 2, 8, 75</span></div>
+      <div class="modal-row"><span>Train</span><span>Temple Meads (8 min walk)</span></div>
+      <div class="modal-row"><span>UoB Campus</span><span>~25 min by bus</span></div>
+    </div>
+
+    <div class="modal-section">
+      <h4>Student Reviews</h4>
+      <div style="font-size:0.85rem;line-height:1.6;color:#555;background:#f9f5ef;padding:0.85rem;border-radius:8px;">
+        "Location is amazing but you pay for it. Noise from Temple Meads area can be an issue. Good for people who like being in the city buzz." — 3rd year student
+      </div>
+    </div>
+
+    <a href="https://www.unite-students.com/bristol" target="_blank" style="display:block;text-align:center;background:var(--red);color:#fff;border-radius:8px;padding:0.75rem;font-weight:600;text-decoration:none;margin-top:1.25rem;">Visit Unite Students Website →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:0.5rem;">Bristol<span style="color:#f5a623;">Hub</span></div>
+  Made by UoB students as part of the <strong style="color:#fff;">ThinkBig</strong> programme.<br>
+  Not an official University of Bristol resource — always verify details directly with providers.<br>
+  <br>
+  <a href="https://www.bristol.ac.uk/students/life-in-bristol/accommodation/">UoB Accommodation</a> &nbsp;·&nbsp;
+  <a href="https://www.bristol.ac.uk/alumni/get-involved/bristol-voices-/">Bristol Voices</a> &nbsp;·&nbsp;
+  <a href="https://www.bristolsu.org.uk">Students' Union</a>
+  <br><br>
+  <span style="opacity:0.4;font-size:0.7rem;">Prototype v0.1 — Information base project · Day 6 presentation ready</span>
+</footer>
+
+<script>
+  // Filter housing cards
+  function setFilter(btn, tag) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.housing-card').forEach(card => {
+      if (tag === 'all' || card.dataset.tags.includes(tag)) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Modal
+  function openModal(id) {
+    document.getElementById('modal-' + id).classList.add('open');
+  }
+  function closeModal(e) {
+    if (e.target.classList.contains('modal-overlay')) {
+      e.target.classList.remove('open');
+    }
+  }
+
+  // Chat
+  const chatNames = ['Anonymous Student 🔵', 'Anon Fresher 🟠', 'Anonymous UoB 🟢', 'Anon 2nd Year 🔴'];
+  function sendChat() {
+    const input = document.getElementById('chat-input');
+    const msg = input.value.trim();
+    if (!msg) return;
+    const div = document.createElement('div');
+    div.className = 'chat-msg';
+    div.innerHTML = `<div class="chat-msg-author">You <span>Just Now</span></div>${msg}`;
+    document.getElementById('chat-messages').appendChild(div);
+    div.scrollIntoView({behavior:'smooth'});
+    input.value = '';
+  }
+  document.getElementById('chat-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendChat();
+  });
+
+  // Scroll-based nav highlight
+  const sections = ['housing','transport','connections','chat'];
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 100) current = id;
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
